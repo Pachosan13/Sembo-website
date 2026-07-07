@@ -11,6 +11,16 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Scroll listener for sticky transparent header transition
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close menus on path changes
   useEffect(() => {
@@ -42,13 +52,19 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-brand-navy border-b border-brand-navy-light shadow-md" id="app-header">
+    <header className={`sticky top-0 z-50 w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      scrolled 
+        ? "bg-brand-navy/90 backdrop-blur-lg border-b border-brand-navy-light/60 shadow-[0_12px_40px_rgba(5,20,36,0.6)] py-1" 
+        : "bg-brand-navy/30 backdrop-blur-sm border-b border-brand-navy-light/10 py-3"
+    }`} id="app-header">
       {/* Top Banner with phone and hours */}
-      <div className="hidden sm:block w-full bg-navy-950/80 text-brand-acero py-1.5 px-4 text-xs border-b border-brand-navy-light/40">
+      <div className={`hidden sm:block w-full bg-navy-950/40 text-brand-acero px-4 text-xs border-b border-brand-navy-light/10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
+        scrolled ? "h-0 py-0 opacity-0 border-b-transparent" : "h-9 py-1.5 opacity-100"
+      }`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse"></span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
               Sede Central: {COMPANY_NAP.address}
             </span>
             <span>| Horario: {COMPANY_NAP.hours}</span>
@@ -66,14 +82,15 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-2 group">
-              <Logo height={46} textColor="white" />
+              <Logo height={48} textColor="white" />
             </Link>
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center space-x-2">
             {navItems.map((item, idx) => {
               if (item.label === "Servicios") {
+                const isActive = currentPath.startsWith("/servicios/");
                 return (
                   <div
                     key={idx}
@@ -82,14 +99,14 @@ export default function Header() {
                     onMouseLeave={() => setServicesDropdownOpen(false)}
                   >
                     <button
-                      className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors focus:outline-none rounded-md ${
-                        currentPath.startsWith("/servicios/")
-                          ? "text-brand-cyan bg-brand-navy-light/40"
-                          : "text-brand-text-light hover:text-brand-cyan hover:bg-brand-navy-light/25"
+                      className={`flex items-center gap-1 px-4 py-2.5 text-sm font-semibold transition-colors focus:outline-none rounded-full premium-focus relative ${
+                        isActive
+                          ? "text-brand-cyan bg-brand-navy-light/45"
+                          : "text-brand-text-light hover:text-brand-cyan"
                       }`}
                       aria-expanded={servicesDropdownOpen}
                     >
-                      Servicios
+                      <span className={isActive ? "" : "link-hover"}>Servicios</span>
                       <ChevronDown className="w-4 h-4 transition-transform duration-200" />
                     </button>
 
@@ -97,14 +114,14 @@ export default function Header() {
                     <AnimatePresence>
                       {servicesDropdownOpen && (
                         <motion.div
-                          className="absolute left-0 mt-0 w-80 bg-brand-navy border border-brand-navy-light rounded-lg shadow-xl py-2 z-50 overflow-hidden"
-                          initial={{ opacity: 0, y: 10 }}
+                          className="absolute left-0 mt-1 w-80 bg-brand-navy border border-brand-navy-light rounded-2xl shadow-2xl py-3.5 z-50 overflow-hidden backdrop-blur-xl"
+                          initial={{ opacity: 0, y: 15 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.15 }}
+                          exit={{ opacity: 0, y: 15 }}
+                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                         >
-                          <div className="px-4 py-2 border-b border-brand-navy-light/55 mb-1 bg-brand-navy-light/10">
-                            <span className="text-xs font-mono tracking-wider text-brand-cyan font-bold uppercase block">
+                          <div className="px-5 py-2 border-b border-brand-navy-light/55 mb-2 bg-brand-navy-light/10">
+                            <span className="text-xs font-mono tracking-widest text-brand-cyan font-bold uppercase block">
                               Áreas de Especialización
                             </span>
                           </div>
@@ -112,16 +129,16 @@ export default function Header() {
                             <Link
                               key={svc.slug}
                               to={`/servicios/${svc.slug}` as RoutePath}
-                              className="flex items-start gap-3 px-4 py-2.5 hover:bg-brand-navy-light/40 transition-colors group"
+                              className="flex items-start gap-4 px-5 py-3 hover:bg-brand-navy-light/45 transition-colors group"
                             >
-                              <div className="mt-0.5 p-1.5 bg-brand-navy-light/50 rounded group-hover:bg-brand-cyan/10 transition-colors">
+                              <div className="mt-0.5 p-2 bg-brand-navy-light/50 rounded-lg group-hover:bg-brand-cyan/10 transition-colors border border-brand-navy-light/60">
                                 {getServiceIcon(svc.iconName)}
                               </div>
                               <div>
-                                <span className="block text-xs font-semibold text-white group-hover:text-brand-cyan transition-colors">
+                                <span className="block text-sm font-semibold text-white group-hover:text-brand-cyan transition-colors">
                                   {svc.title}
                                 </span>
-                                <span className="block text-[10px] text-brand-acero leading-snug mt-0.5 group-hover:text-slate-300">
+                                <span className="block text-xs text-brand-acero leading-relaxed mt-1 group-hover:text-slate-300 font-light">
                                   {svc.summary}
                                 </span>
                               </div>
@@ -134,17 +151,18 @@ export default function Header() {
                 );
               }
 
+              const isActive = currentPath === item.path;
               return (
                 <Link
                   key={idx}
                   to={item.path!}
-                  className={`px-4 py-2 text-sm font-medium transition-colors rounded-md ${
-                    currentPath === item.path
-                      ? "text-brand-cyan bg-brand-navy-light/40"
-                      : "text-brand-text-light hover:text-brand-cyan hover:bg-brand-navy-light/25"
+                  className={`px-4 py-2.5 text-sm font-semibold transition-colors rounded-full premium-focus relative ${
+                    isActive
+                      ? "text-brand-cyan bg-brand-navy-light/45"
+                      : "text-brand-text-light hover:text-brand-cyan"
                   }`}
                 >
-                  {item.label}
+                  <span className={isActive ? "" : "link-hover"}>{item.label}</span>
                 </Link>
               );
             })}
@@ -154,7 +172,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center space-x-3">
             <button
               onClick={() => navigate("/contacto")}
-              className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-wider uppercase bg-brand-cyan text-brand-navy rounded-md hover:bg-cyan-400 hover:shadow-md active:translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+              className="flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold tracking-wider uppercase bg-brand-cyan text-brand-navy rounded-full hover:bg-cyan-400 hover:shadow-cyan-400/20 active:translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-brand-cyan cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" /> Solicitar cotización
             </button>
@@ -162,7 +180,7 @@ export default function Header() {
               href={COMPANY_NAP.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-wider uppercase border border-green-500 text-green-400 rounded-md hover:bg-green-500/10 hover:text-green-300 transition-all focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold tracking-wider uppercase border border-green-500 text-green-400 rounded-full hover:bg-green-500/10 hover:text-green-300 transition-all focus:outline-none focus:ring-2 focus:ring-green-400 cursor-pointer"
             >
               <Phone className="w-3.5 h-3.5" /> WhatsApp
             </a>
@@ -172,7 +190,7 @@ export default function Header() {
           <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={() => navigate("/contacto")}
-              className="flex items-center gap-1 px-3 py-1.5 text-[10px] font-bold tracking-wider uppercase bg-brand-cyan text-brand-navy rounded hover:bg-cyan-400 transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold tracking-wider uppercase bg-brand-cyan text-brand-navy rounded-full hover:bg-cyan-400 transition-colors cursor-pointer"
             >
               Cotizar
             </button>
@@ -257,7 +275,7 @@ export default function Header() {
               >
                 <Phone className="w-4 h-4" /> WhatsApp Directo
               </a>
-              <div className="text-center text-[10px] text-brand-acero pt-2">
+              <div className="text-center text-xs text-brand-acero pt-2">
                 Sede Rio Abajo, Local D15 · Tel: +507 235-9876
               </div>
             </div>

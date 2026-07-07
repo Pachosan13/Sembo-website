@@ -79,119 +79,120 @@ export default function ContactView() {
   };
 
   return (
-    <div className="w-full bg-brand-navy text-brand-text-light pb-20" id="contact-view">
+    <div className="w-full bg-brand-navy text-brand-text-light pb-28 noise-texture" id="contact-view">
       
       {/* Page Header */}
-      <section className="bg-navy-950 border-b border-brand-navy-light/40 py-16 blueprint-grid">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-1">
+      <section className="bg-navy-950 border-b border-brand-navy-light/40 py-24 md:py-32 blueprint-grid overflow-hidden relative">
+        <div className="absolute top-1/4 right-1/4 w-[350px] h-[350px] bg-brand-cyan/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-3">
             CANALES DE ATENCIÓN DIRECTA
           </span>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-white tracking-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold text-white tracking-tighter leading-[0.95] text-balance">
             Contáctanos
           </h1>
-          <p className="text-xs sm:text-sm text-brand-acero leading-relaxed mt-2 max-w-xl">
+          <p className="text-base sm:text-lg text-slate-300/90 leading-relaxed mt-6 max-w-3xl font-light">
             Cuéntanos sobre tu proyecto o el sistema que necesitas mantener. Te respondemos a la brevedad con un ingeniero idóneo.
           </p>
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           
           {/* Left Column: Form / Success Ticket */}
           <div className="lg:col-span-7">
             {isSubmitted ? (
-              <div className="bg-navy-950 border border-brand-cyan p-8 rounded-lg space-y-6 relative overflow-hidden blueprint-grid">
+              <div className="bg-navy-950 border border-brand-cyan/40 p-8 sm:p-12 rounded-2xl space-y-8 relative overflow-hidden blueprint-grid shadow-2xl">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-brand-cyan/5 rounded-full blur-xl pointer-events-none"></div>
                 
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-brand-cyan/15 rounded-full">
+                <div className="flex items-center gap-4 border-b border-brand-navy-light/40 pb-6">
+                  <div className="p-3 bg-brand-cyan/15 rounded-full border border-brand-cyan/20">
                     <CheckCircle className="w-8 h-8 text-brand-cyan" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-display font-extrabold text-white">¡Solicitud recibida con éxito!</h2>
-                    <span className="text-xs font-mono text-brand-cyan">{ticketId}</span>
+                    <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white tracking-tighter">¡Solicitud recibida con éxito!</h2>
+                    <span className="text-xs font-mono text-brand-cyan tracking-wider block mt-1 font-semibold">{ticketId}</span>
                   </div>
                 </div>
 
                 {/* Simulated service ticket detail */}
-                <div className="p-5 bg-brand-navy-light/40 border border-brand-navy-light rounded font-mono text-xs space-y-3">
-                  <div className="text-center text-brand-cyan font-bold pb-2 border-b border-brand-navy-light/60">
+                <div className="p-6 sm:p-8 bg-brand-navy-light/15 border border-brand-navy-light/60 rounded-xl font-mono text-xs sm:text-sm space-y-4">
+                  <div className="text-center text-brand-cyan font-bold pb-3 border-b border-brand-navy-light/60 tracking-wider">
                     TICKET DE SOLICITUD ELECTROMECÁNICA
                   </div>
-                  <div className="grid grid-cols-12 gap-2 text-slate-300">
-                    <span className="col-span-4 text-brand-acero uppercase">Remitente:</span>
-                    <span className="col-span-8 text-white">{formData.name}</span>
+                  <div className="grid grid-cols-12 gap-y-3.5 gap-x-2 text-slate-300">
+                    <span className="col-span-4 text-brand-acero uppercase font-bold text-xs tracking-wider">Remitente:</span>
+                    <span className="col-span-8 text-white font-semibold">{formData.name}</span>
                     
                     {formData.company && (
                       <>
-                        <span className="col-span-4 text-brand-acero uppercase">Empresa:</span>
-                        <span className="col-span-8 text-white">{formData.company}</span>
+                        <span className="col-span-4 text-brand-acero uppercase font-bold text-xs tracking-wider">Empresa:</span>
+                        <span className="col-span-8 text-white font-semibold">{formData.company}</span>
                       </>
                     )}
                     
-                    <span className="col-span-4 text-brand-acero uppercase">Teléfono:</span>
-                    <span className="col-span-8 text-white">{formData.phone}</span>
+                    <span className="col-span-4 text-brand-acero uppercase font-bold text-xs tracking-wider">Teléfono:</span>
+                    <span className="col-span-8 text-white font-semibold">{formData.phone}</span>
                     
-                    <span className="col-span-4 text-brand-acero uppercase">Email:</span>
-                    <span className="col-span-8 text-white">{formData.email}</span>
+                    <span className="col-span-4 text-brand-acero uppercase font-bold text-xs tracking-wider">Email:</span>
+                    <span className="col-span-8 text-white font-semibold">{formData.email}</span>
                     
-                    <span className="col-span-4 text-brand-acero uppercase">Asunto:</span>
+                    <span className="col-span-4 text-brand-acero uppercase font-bold text-xs tracking-wider">Asunto:</span>
                     <span className="col-span-8 text-brand-cyan font-bold">{formData.subject}</span>
                     
-                    <span className="col-span-4 text-brand-acero uppercase">Mensaje:</span>
-                    <p className="col-span-8 text-slate-200 leading-normal bg-brand-navy/60 p-2 rounded border border-brand-navy-light/35">{formData.message}</p>
+                    <span className="col-span-4 text-brand-acero uppercase font-bold text-xs tracking-wider">Mensaje:</span>
+                    <div className="col-span-8 text-slate-200 leading-normal bg-brand-navy/60 p-3 rounded-lg border border-brand-navy-light/35">{formData.message}</div>
                   </div>
                   
-                  <div className="pt-2 text-[10px] text-brand-acero leading-normal">
+                  <div className="pt-4 text-xs text-brand-acero leading-relaxed border-t border-brand-navy-light/40">
                     * Un ingeniero idóneo de SEMCO Panamá evaluará tu caso y se comunicará a los datos proporcionados en un lapso menor de 4 horas hábiles.
                   </div>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-2">
+                <div className="flex justify-end pt-2">
                   <button
                     onClick={handleReset}
-                    className="px-5 py-2.5 bg-brand-cyan text-brand-navy font-display font-bold text-xs tracking-wider uppercase rounded hover:bg-cyan-400 active:translate-y-0.5 transition-all focus:outline-none"
+                    className="px-8 py-4 bg-brand-cyan text-brand-navy font-display font-bold text-xs tracking-wider uppercase rounded-full hover:bg-cyan-400 active:translate-y-0.5 transition-all cursor-pointer shadow-lg shadow-brand-cyan/25"
                   >
                     Enviar otra solicitud
                   </button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-brand-navy-light/30 border border-brand-navy-light p-6 md:p-8 rounded-lg space-y-5" noValidate>
-                <h2 className="text-lg font-display font-extrabold text-white border-b border-brand-navy-light pb-3">
+              <form onSubmit={handleSubmit} className="bg-brand-navy-light/15 border border-brand-navy-light/60 p-6 sm:p-10 rounded-2xl space-y-6 shadow-xl" noValidate>
+                <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white border-b border-brand-navy-light/40 pb-6 tracking-tighter">
                   Formulario de Contacto Técnico
                 </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Name field */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="form-name" className="text-xs font-mono font-bold text-slate-300 uppercase block">
-                      Nombre Completo <span className="text-brand-orange">*</span>
+                  <div className="space-y-2">
+                    <label htmlFor="form-name" className="text-xs font-mono font-bold text-slate-300 uppercase block tracking-wider">
+                      Nombre Completo <span className="text-brand-orange font-bold">*</span>
                     </label>
                     <input
                       id="form-name"
                       type="text"
-                      className={`w-full px-4 py-2.5 bg-navy-950 border rounded text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan ${
-                        errors.name ? "border-brand-orange" : "border-brand-navy-light/85"
+                      className={`w-full px-4 py-3 bg-navy-950 border text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan rounded-xl transition-all ${
+                        errors.name ? "border-brand-orange" : "border-brand-navy-light/80 hover:border-brand-cyan/40"
                       }`}
                       placeholder="Ej. Ing. Alexis Montenegro"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     />
-                    {errors.name && <span className="text-[10px] font-mono text-brand-orange block">{errors.name}</span>}
+                    {errors.name && <span className="text-xs font-mono text-brand-orange block">{errors.name}</span>}
                   </div>
 
                   {/* Company field */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="form-company" className="text-xs font-mono font-bold text-slate-300 uppercase block">
+                  <div className="space-y-2">
+                    <label htmlFor="form-company" className="text-xs font-mono font-bold text-slate-300 uppercase block tracking-wider">
                       Empresa o PH
                     </label>
                     <input
                       id="form-company"
                       type="text"
-                      className="w-full px-4 py-2.5 bg-navy-950 border border-brand-navy-light/85 rounded text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+                      className="w-full px-4 py-3 bg-navy-950 border border-brand-navy-light/80 hover:border-brand-cyan/40 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan transition-all"
                       placeholder="Ej. PH San Francisco Bay"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
@@ -199,52 +200,52 @@ export default function ContactView() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Phone field */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="form-phone" className="text-xs font-mono font-bold text-slate-300 uppercase block">
-                      Teléfono de Contacto <span className="text-brand-orange">*</span>
+                  <div className="space-y-2">
+                    <label htmlFor="form-phone" className="text-xs font-mono font-bold text-slate-300 uppercase block tracking-wider">
+                      Teléfono de Contacto <span className="text-brand-orange font-bold">*</span>
                     </label>
                     <input
                       id="form-phone"
                       type="tel"
-                      className={`w-full px-4 py-2.5 bg-navy-950 border rounded text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan ${
-                        errors.phone ? "border-brand-orange" : "border-brand-navy-light/85"
+                      className={`w-full px-4 py-3 bg-navy-950 border text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan rounded-xl transition-all ${
+                        errors.phone ? "border-brand-orange" : "border-brand-navy-light/80 hover:border-brand-cyan/40"
                       }`}
                       placeholder="Ej. +507 6677-8899"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     />
-                    {errors.phone && <span className="text-[10px] font-mono text-brand-orange block">{errors.phone}</span>}
+                    {errors.phone && <span className="text-xs font-mono text-brand-orange block">{errors.phone}</span>}
                   </div>
 
                   {/* Email field */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="form-email" className="text-xs font-mono font-bold text-slate-300 uppercase block">
-                      Correo Electrónico <span className="text-brand-orange">*</span>
+                  <div className="space-y-2">
+                    <label htmlFor="form-email" className="text-xs font-mono font-bold text-slate-300 uppercase block tracking-wider">
+                      Correo Electrónico <span className="text-brand-orange font-bold">*</span>
                     </label>
                     <input
                       id="form-email"
                       type="email"
-                      className={`w-full px-4 py-2.5 bg-navy-950 border rounded text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan ${
-                        errors.email ? "border-brand-orange" : "border-brand-navy-light/85"
+                      className={`w-full px-4 py-3 bg-navy-950 border text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan rounded-xl transition-all ${
+                        errors.email ? "border-brand-orange" : "border-brand-navy-light/80 hover:border-brand-cyan/40"
                       }`}
                       placeholder="Ej. alexis@empresa.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
-                    {errors.email && <span className="text-[10px] font-mono text-brand-orange block">{errors.email}</span>}
+                    {errors.email && <span className="text-xs font-mono text-brand-orange block">{errors.email}</span>}
                   </div>
                 </div>
 
                 {/* Subject selection */}
-                <div className="space-y-1.5">
-                  <label htmlFor="form-subject" className="text-xs font-mono font-bold text-slate-300 uppercase block">
+                <div className="space-y-2">
+                  <label htmlFor="form-subject" className="text-xs font-mono font-bold text-slate-300 uppercase block tracking-wider">
                     Motivo de la Consulta
                   </label>
                   <select
                     id="form-subject"
-                    className="w-full px-4 py-2.5 bg-navy-950 border border-brand-navy-light/85 rounded text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+                    className="w-full px-4 py-3.5 bg-navy-950 border border-brand-navy-light/80 hover:border-brand-cyan/40 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan transition-all"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   >
@@ -257,28 +258,28 @@ export default function ContactView() {
                 </div>
 
                 {/* Message field */}
-                <div className="space-y-1.5">
-                  <label htmlFor="form-message" className="text-xs font-mono font-bold text-slate-300 uppercase block">
-                    Especificaciones o Mensaje <span className="text-brand-orange">*</span>
+                <div className="space-y-2">
+                  <label htmlFor="form-message" className="text-xs font-mono font-bold text-slate-300 uppercase block tracking-wider">
+                    Especificaciones o Mensaje <span className="text-brand-orange font-bold">*</span>
                   </label>
                   <textarea
                     id="form-message"
                     rows={4}
-                    className={`w-full px-4 py-2.5 bg-navy-950 border rounded text-xs text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan ${
-                      errors.message ? "border-brand-orange" : "border-brand-navy-light/85"
+                    className={`w-full px-4 py-3 bg-navy-950 border text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-cyan rounded-xl transition-all ${
+                      errors.message ? "border-brand-orange" : "border-brand-navy-light/80 hover:border-brand-cyan/40"
                     }`}
                     placeholder="Detalla qué sistemas posee tu edificio (bomba contra incendio, plantas, bombas de agua) y qué requieres."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   />
-                  {errors.message && <span className="text-[10px] font-mono text-brand-orange block">{errors.message}</span>}
+                  {errors.message && <span className="text-xs font-mono text-brand-orange block">{errors.message}</span>}
                 </div>
 
                 {/* Submit button */}
-                <div>
+                <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full py-3.5 bg-brand-cyan text-brand-navy font-display font-bold text-xs tracking-wider uppercase rounded hover:bg-cyan-400 active:translate-y-0.5 transition-all text-center flex items-center justify-center gap-2"
+                    className="w-full py-4.5 bg-brand-cyan text-brand-navy font-display font-bold text-xs tracking-wider uppercase rounded-full hover:bg-cyan-400 hover:shadow-cyan-400/20 active:translate-y-0.5 transition-all text-center flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-brand-cyan/15"
                   >
                     <Send className="w-4 h-4" /> Enviar Solicitud Técnica
                   </button>
@@ -291,59 +292,59 @@ export default function ContactView() {
           <div className="lg:col-span-5 space-y-8">
             
             {/* NAP card */}
-            <div className="bg-brand-navy-light/20 border border-brand-navy-light rounded-lg p-6 space-y-5">
-              <div className="pb-4 border-b border-brand-navy-light/60">
+            <div className="bg-brand-navy-light/15 border border-brand-navy-light/60 rounded-2xl p-6 sm:p-8 space-y-6">
+              <div className="pb-5 border-b border-brand-navy-light/40">
                 <Logo height={48} textColor="white" />
               </div>
               <h3 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase">
                 DATOS CORPORATIVOS (NAP)
               </h3>
               
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
+              <div className="space-y-5">
+                <div className="flex items-start gap-4">
                   <MapPin className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-xs font-mono font-bold text-white uppercase">Oficina Sede</span>
-                    <span className="text-xs text-slate-300 block mt-0.5">{COMPANY_NAP.address}</span>
+                    <span className="block text-xs font-mono font-bold text-white uppercase tracking-wider">Oficina Sede</span>
+                    <span className="text-sm text-slate-300 block mt-1 leading-relaxed font-light">{COMPANY_NAP.address}</span>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-4">
                   <Phone className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-xs font-mono font-bold text-white uppercase">Teléfono Fijo</span>
-                    <a href={`tel:${COMPANY_NAP.telephoneSchema}`} className="text-xs text-slate-300 block mt-0.5 hover:text-brand-cyan transition-colors font-mono">
+                    <span className="block text-xs font-mono font-bold text-white uppercase tracking-wider">Teléfono Fijo</span>
+                    <a href={`tel:${COMPANY_NAP.telephoneSchema}`} className="text-sm text-slate-300 block mt-1 hover:text-brand-cyan transition-colors font-mono font-light">
                       {COMPANY_NAP.telephone}
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-4">
                   <Mail className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-xs font-mono font-bold text-white uppercase">Correo Directo</span>
-                    <a href={`mailto:${COMPANY_NAP.email}`} className="text-xs text-slate-300 block mt-0.5 hover:text-brand-cyan transition-colors">
+                    <span className="block text-xs font-mono font-bold text-white uppercase tracking-wider">Correo Directo</span>
+                    <a href={`mailto:${COMPANY_NAP.email}`} className="text-sm text-slate-300 block mt-1 hover:text-brand-cyan transition-colors font-light">
                       {COMPANY_NAP.email}
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-4">
                   <Clock className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
                   <div>
-                    <span className="block text-xs font-mono font-bold text-white uppercase">Horario Comercial</span>
-                    <span className="text-xs text-slate-300 block mt-0.5">{COMPANY_NAP.hours}</span>
+                    <span className="block text-xs font-mono font-bold text-white uppercase tracking-wider">Horario Comercial</span>
+                    <span className="text-sm text-slate-300 block mt-1 font-light">{COMPANY_NAP.hours}</span>
                   </div>
                 </div>
               </div>
 
               {/* Large WhatsApp banner */}
-              <div className="pt-2 border-t border-brand-navy-light/40">
+              <div className="pt-4 border-t border-brand-navy-light/40">
                 <a
                   href={COMPANY_NAP.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 bg-green-500 hover:bg-green-600 transition-colors text-white font-display font-bold text-xs tracking-wider uppercase rounded flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-green-500 hover:bg-green-600 transition-colors text-white font-display font-bold text-xs tracking-wider uppercase rounded-full flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-green-500/10"
                 >
                   <MessageSquare className="w-4 h-4 fill-current" /> Contactar vía WhatsApp
                 </a>
@@ -351,9 +352,9 @@ export default function ContactView() {
             </div>
 
             {/* Google Map Section */}
-            <div className="bg-brand-navy-light/40 border border-brand-navy-light rounded-lg overflow-hidden flex flex-col">
-              <div className="px-5 py-3 border-b border-brand-navy-light/60 bg-brand-navy-light/30">
-                <span className="text-xs font-mono font-bold text-brand-cyan uppercase">Ubicación Georreferenciada</span>
+            <div className="bg-brand-navy-light/15 border border-brand-navy-light/60 rounded-2xl overflow-hidden flex flex-col shadow-xl">
+              <div className="px-6 py-4 border-b border-brand-navy-light/40 bg-brand-navy-light/30">
+                <span className="text-xs font-mono font-bold text-brand-cyan uppercase tracking-wider">Ubicación Georreferenciada</span>
               </div>
               <div className="h-64 w-full bg-slate-900 relative">
                 {/* Embedded Accessible Google Maps Iframe focusing on Rio Abajo, Villa Rica, Panama */}
@@ -370,9 +371,9 @@ export default function ContactView() {
                 ></iframe>
                 
                 {/* Visual Label overlay on map */}
-                <div className="absolute bottom-3 left-3 right-3 bg-navy-950/95 border border-brand-navy-light/80 rounded p-2.5 backdrop-blur-sm shadow-md text-[11px] leading-snug">
-                  <span className="block font-bold text-white uppercase">SEMCO Panamá Sede</span>
-                  <p className="text-slate-300">Rio Abajo, Villa Rica, Local D15. Frente a vía principal.</p>
+                <div className="absolute bottom-4 left-4 right-4 bg-navy-950/95 border border-brand-navy-light/80 rounded-xl p-3.5 backdrop-blur-sm shadow-xl text-xs leading-relaxed">
+                  <span className="block font-bold text-white uppercase tracking-wider">SEMCO Panamá Sede</span>
+                  <p className="text-slate-300 mt-0.5 font-light">Rio Abajo, Villa Rica, Local D15. Frente a vía principal.</p>
                 </div>
               </div>
             </div>
@@ -385,3 +386,4 @@ export default function ContactView() {
     </div>
   );
 }
+

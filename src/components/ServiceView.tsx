@@ -19,28 +19,29 @@ export default function ServiceView() {
 
   if (!service) {
     return (
-      <div className="py-24 text-center space-y-4 max-w-lg mx-auto" id="service-not-found">
-        <h1 className="text-xl font-display font-extrabold text-white">Servicio no encontrado</h1>
-        <p className="text-xs text-brand-acero">El enlace que has seguido podría estar desactualizado o haber cambiado.</p>
+      <div className="py-32 text-center space-y-6 max-w-lg mx-auto" id="service-not-found">
+        <h1 className="text-3xl font-display font-extrabold text-white tracking-tight">Servicio no encontrado</h1>
+        <p className="text-sm text-brand-acero leading-relaxed">El enlace que has seguido podría estar desactualizado o haber cambiado en el sistema.</p>
         <button
           onClick={() => navigate("/")}
-          className="px-5 py-2 bg-brand-cyan text-brand-navy font-mono text-xs font-bold rounded uppercase tracking-wider"
+          className="px-8 py-4 bg-brand-cyan text-brand-navy font-display font-bold text-xs rounded-full uppercase tracking-wider hover:bg-cyan-400 hover:shadow-cyan-400/20 active:translate-y-0.5 transition-all cursor-pointer"
         >
           Regresar al Inicio
         </button>
       </div>
     );
   }
+
   // Get service icons dynamically
   const getServiceIcon = (iconName: string) => {
     switch (iconName) {
-      case "Flame": return <Flame className="w-10 h-10 text-brand-cyan" />;
-      case "Droplets": return <Droplets className="w-10 h-10 text-brand-cyan" />;
-      case "Zap": return <Zap className="w-10 h-10 text-brand-cyan" />;
-      case "Cpu": return <Cpu className="w-10 h-10 text-brand-cyan" />;
-      case "Sun": return <Sun className="w-10 h-10 text-brand-cyan" />;
-      case "Briefcase": return <Briefcase className="w-10 h-10 text-brand-cyan" />;
-      default: return <Flame className="w-10 h-10 text-brand-cyan" />;
+      case "Flame": return <Flame className="w-12 h-12 text-brand-cyan" />;
+      case "Droplets": return <Droplets className="w-12 h-12 text-brand-cyan" />;
+      case "Zap": return <Zap className="w-12 h-12 text-brand-cyan" />;
+      case "Cpu": return <Cpu className="w-12 h-12 text-brand-cyan" />;
+      case "Sun": return <Sun className="w-12 h-12 text-brand-cyan" />;
+      case "Briefcase": return <Briefcase className="w-12 h-12 text-brand-cyan" />;
+      default: return <Flame className="w-12 h-12 text-brand-cyan" />;
     }
   };
 
@@ -61,216 +62,258 @@ export default function ServiceView() {
     }
   };
 
+  // Animation variants
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.05
+      }
+    }
+  };
+
+  const itemFadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 100, damping: 20 }
+    }
+  };
+
   return (
-    <div className="w-full bg-brand-navy text-brand-text-light pb-20" id={`service-view-${slug}`}>
+    <div className="w-full bg-brand-navy text-brand-text-light pb-28 noise-texture" id={`service-view-${slug}`}>
       
       {/* Dynamic Header / Hero */}
-      <section className="bg-navy-950 border-b border-brand-navy-light/40 py-12 md:py-16 blueprint-grid overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <section className="bg-navy-950 border-b border-brand-navy-light/40 py-24 md:py-32 blueprint-grid overflow-hidden relative">
+        <div className="absolute top-1/4 left-1/3 w-[400px] h-[400px] bg-brand-cyan/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             
             {/* Left/Text Content */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-brand-navy rounded-lg border border-brand-navy-light shadow-md shrink-0">
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="lg:col-span-7 space-y-8"
+            >
+              <motion.div variants={itemFadeUp} className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                <div className="p-4 bg-brand-navy rounded-xl border border-brand-navy-light/60 shadow-xl shrink-0">
                   {getServiceIcon(service.iconName)}
                 </div>
                 <div>
-                  <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-0.5">
+                  <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-1">
                     Servicio Especializado · SEMCO
                   </span>
-                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-white tracking-tight">
+                  <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold text-white tracking-tighter leading-[0.95] text-balance">
                     {service.title}
                   </h1>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Answer-First Section (SEO/AEO critical optimization) */}
-              <div className="bg-brand-navy border-l-4 border-brand-cyan rounded-r-lg p-6 shadow-xl relative overflow-hidden">
+              {/* Answer-First Section */}
+              <motion.div 
+                variants={itemFadeUp}
+                className="bg-brand-navy border-l-4 border-brand-cyan rounded-r-2xl p-8 sm:p-10 shadow-2xl relative overflow-hidden"
+              >
                 <div className="absolute right-0 top-0 translate-x-[40%] translate-y-[40%] w-32 h-32 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none"></div>
-                <h2 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase mb-2">
+                <h2 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase mb-3">
                   Resumen Técnico y Cumplimiento
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-100 leading-relaxed font-sans">
+                <p className="text-lg sm:text-xl text-slate-100 leading-relaxed font-light text-pretty">
                   {service.answerFirst}
                 </p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Right/Visual Image Content */}
-            <div className="lg:col-span-5">
-              <div className="relative group border border-brand-cyan/20 rounded-lg overflow-hidden shadow-2xl bg-brand-navy-light/20 p-2.5">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.3, type: "spring", stiffness: 100, damping: 20 }}
+              className="lg:col-span-5"
+            >
+              <div className="relative group border border-brand-cyan/25 rounded-2xl overflow-hidden shadow-2xl bg-brand-navy-light/20 p-2.5">
                 {/* Tech frame corners */}
-                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-brand-cyan"></div>
-                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-brand-cyan"></div>
-                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-brand-cyan"></div>
-                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-brand-cyan"></div>
+                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-brand-cyan z-20"></div>
+                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-brand-cyan z-20"></div>
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-brand-cyan z-20"></div>
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-brand-cyan z-20"></div>
 
-                <div className="relative h-64 w-full bg-slate-900 rounded overflow-hidden">
+                <div className="relative h-72 sm:h-80 w-full bg-slate-900 rounded-xl overflow-hidden">
                   <img
                     src={getServiceImage(service.slug)}
                     alt={service.title}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 to-transparent"></div>
-                  <div className="absolute top-3 right-3 px-2 py-0.5 bg-brand-navy/80 border border-brand-cyan/30 rounded text-[9px] font-mono text-brand-cyan font-bold uppercase tracking-widest">
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 to-transparent"></div>
+                  <div className="absolute top-4 right-4 px-2.5 py-1 bg-brand-navy/90 border border-brand-cyan/30 rounded text-xs font-mono text-brand-cyan font-bold uppercase tracking-widest">
                     SISTEMA REAL
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </div>
       </section>
 
       {/* Main content grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <motion.section 
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           
           {/* Left Column: What's included, Certs & Sectors */}
-          <div className="lg:col-span-8 space-y-12">
+          <div className="lg:col-span-8 space-y-20">
             
             {/* 1. What is included */}
-            <div className="space-y-6">
-              <h3 className="text-lg font-display font-bold text-white flex items-center gap-2">
-                <Layers className="w-5 h-5 text-brand-cyan" />
+            <motion.div variants={itemFadeUp} className="space-y-8">
+              <h3 className="text-3xl md:text-4xl font-display font-extrabold tracking-tight text-white flex items-center gap-3">
+                <Layers className="w-8 h-8 text-brand-cyan shrink-0" />
                 ¿Qué incluye nuestro servicio especializado?
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {service.includes.map((inc, index) => (
                   <div
                     key={index}
-                    className="p-4 bg-brand-navy-light/35 border border-brand-navy-light/60 rounded hover:border-brand-cyan/30 transition-all flex items-start gap-3"
+                    className="p-6 bg-brand-navy-light/15 border border-brand-navy-light/60 rounded-2xl hover:border-brand-cyan/40 hover:bg-brand-navy-light/25 transition-all duration-300 flex items-start gap-4 shadow-lg shadow-brand-navy/30"
                   >
                     <CheckCircle className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
-                    <span className="text-xs text-slate-200 leading-relaxed">{inc}</span>
+                    <span className="text-base sm:text-lg text-slate-200 leading-relaxed font-light">{inc}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* 2. Normas, Certificaciones y Sellos */}
-            <div className="p-6 bg-navy-950/40 border border-brand-navy-light/65 rounded-lg space-y-4">
-              <h3 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase flex items-center gap-2">
-                <Shield className="w-4.5 h-4.5 text-brand-cyan" />
+            <motion.div variants={itemFadeUp} className="p-8 sm:p-10 bg-navy-950/40 border border-brand-navy-light/60 rounded-2xl space-y-6 shadow-xl relative overflow-hidden">
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-t border-l border-brand-cyan/10"></div>
+              <h3 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase flex items-center gap-2.5">
+                <Shield className="w-5 h-5 text-brand-cyan" />
                 Estándares de Calidad y Códigos Aplicables
               </h3>
-              <p className="text-xs text-brand-acero leading-relaxed">
+              <p className="text-base sm:text-lg text-brand-acero leading-relaxed font-light">
                 Nuestros proyectos de {service.title} son diseñados y ejecutados cumpliendo con las más estrictas directrices nacionales e internacionales. Esto asegura auditorías aprobadas, cobertura de pólizas de seguro e inspecciones exitosas.
               </p>
-              <div className="flex flex-wrap gap-2.5 pt-1">
+              <div className="flex flex-wrap gap-3 pt-2">
                 {service.certifications.map((cert, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 bg-brand-navy-light border border-brand-navy-light/80 rounded text-xs font-mono font-bold text-brand-orange"
+                    className="px-4 py-1.5 bg-brand-navy-light border border-brand-navy-light/85 rounded-xl text-xs sm:text-sm font-mono font-bold text-brand-orange shadow-sm"
                   >
                     {cert}
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* 3. FAQ específico del servicio */}
             {service.faqs && service.faqs.length > 0 && (
-              <div className="space-y-6">
-                <h3 className="text-lg font-display font-bold text-white flex items-center gap-2">
-                  <HelpCircle className="w-5 h-5 text-brand-cyan" />
+              <motion.div variants={itemFadeUp} className="space-y-8">
+                <h3 className="text-3xl md:text-4xl font-display font-extrabold tracking-tight text-white flex items-center gap-3">
+                  <HelpCircle className="w-8 h-8 text-brand-cyan shrink-0" />
                   Preguntas frecuentes del servicio
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {service.faqs.map((faq, index) => (
                     <div
                       key={index}
-                      className="p-5 bg-brand-navy-light/20 border border-brand-navy-light rounded-lg space-y-2.5"
+                      className="p-8 bg-brand-navy-light/15 border border-brand-navy-light/60 rounded-2xl space-y-4 hover:border-brand-navy-light/95 transition-colors"
                     >
-                      <h4 className="text-sm font-semibold text-white flex items-start gap-2">
-                        <span className="text-brand-cyan font-mono text-xs">0{index + 1}.</span>
+                      <h4 className="text-lg sm:text-xl font-bold text-white flex items-start gap-3">
+                        <span className="text-brand-cyan font-mono text-sm mt-1">0{index + 1}.</span>
                         <span>{faq.question}</span>
                       </h4>
-                      <p className="text-xs text-slate-300 leading-relaxed pl-5">
+                      <p className="text-base sm:text-lg text-slate-300 leading-relaxed pl-7 font-light">
                         {faq.answer}
                       </p>
                     </div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             )}
 
           </div>
 
           {/* Right Column: Sidebar (Sectors & CTA Card) */}
-          <div className="lg:col-span-4 space-y-8">
+          <div className="lg:col-span-4 space-y-10">
             
             {/* Target Sectors card */}
-            <div className="bg-brand-navy-light/40 border border-brand-navy-light rounded-lg p-6">
-              <h3 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase mb-4 border-b border-brand-navy-light pb-2">
+            <motion.div variants={itemFadeUp} className="bg-brand-navy-light/20 border border-brand-navy-light/60 rounded-2xl p-8 shadow-xl">
+              <h3 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase mb-6 border-b border-brand-navy-light/40 pb-3 font-semibold">
                 SECTORES DE APLICACIÓN
               </h3>
-              <ul className="space-y-2.5 text-xs text-slate-300">
+              <ul className="space-y-4 text-base sm:text-lg text-slate-300 font-light">
                 {service.sectors.map((sector, idx) => (
-                  <li key={idx} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-brand-cyan rounded-full shrink-0"></span>
+                  <li key={idx} className="flex items-center gap-3">
+                    <span className="w-2 h-2 bg-brand-cyan rounded-full shrink-0"></span>
                     <span>{sector}</span>
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
 
             {/* Quote CTA card */}
-            <div className="bg-navy-950 border border-brand-cyan/20 rounded-lg p-6 space-y-4 relative overflow-hidden blueprint-grid">
-              <div className="absolute top-0 right-0 w-8 h-8 border-b border-l border-brand-cyan/20"></div>
+            <motion.div variants={itemFadeUp} className="bg-navy-950 border border-brand-cyan/25 rounded-2xl p-8 sm:p-10 space-y-6 relative overflow-hidden blueprint-grid shadow-2xl">
+              <div className="absolute top-0 right-0 w-12 h-12 border-b border-l border-brand-cyan/20"></div>
               
-              <h3 className="text-base font-display font-bold text-white">
+              <h3 className="text-xl sm:text-2xl font-display font-bold text-white tracking-tight leading-snug">
                 ¿Necesitas cotizar {service.title}?
               </h3>
               
-              <p className="text-xs text-brand-acero leading-relaxed">
+              <p className="text-base text-brand-acero leading-relaxed font-light">
                 Contamos con personal idóneo para realizar levantamientos técnicos y memorias de cálculo detalladas en Ciudad de Panamá y a nivel nacional.
               </p>
 
               {/* Unique feature checklist */}
-              <div className="space-y-2 text-xs text-slate-300 py-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-brand-cyan font-bold">✓</span>
+              <div className="space-y-4 text-base text-slate-300 py-1 font-light">
+                <div className="flex items-center gap-3">
+                  <span className="text-brand-cyan font-bold text-lg">✓</span>
                   <span>Evaluación técnica de campo</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-brand-cyan font-bold">✓</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-brand-cyan font-bold text-lg">✓</span>
                   <span>Checklist con trazabilidad digital</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-brand-cyan font-bold">✓</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-brand-cyan font-bold text-lg">✓</span>
                   <span>Estricto cumplimiento NFPA / Bomberos</span>
                 </div>
               </div>
 
-              <div className="space-y-2 pt-2">
+              <div className="space-y-3 pt-3">
                 <button
                   onClick={() => navigate("/contacto")}
-                  className="w-full py-3 bg-brand-cyan text-brand-navy font-display font-bold text-xs tracking-wider uppercase rounded hover:bg-cyan-400 active:translate-y-0.5 transition-all text-center flex items-center justify-center gap-1.5"
+                  className="w-full py-4 bg-brand-cyan text-brand-navy font-display font-bold text-xs tracking-wider uppercase rounded-full hover:bg-cyan-400 hover:shadow-cyan-400/20 active:translate-y-0.5 transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <span>Solicitar cotización</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
 
                 <a
                   href={COMPANY_NAP.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full block py-3 bg-green-500 text-white font-display font-bold text-xs tracking-wider uppercase rounded hover:bg-green-600 transition-all text-center"
+                  className="w-full block py-4 bg-green-500 text-white font-display font-bold text-xs tracking-wider uppercase rounded-full hover:bg-green-600 transition-all text-center cursor-pointer shadow-lg shadow-green-500/10"
                 >
                   Consultar vía WhatsApp
                 </a>
               </div>
-            </div>
+            </motion.div>
 
           </div>
 
         </div>
-      </section>
+      </motion.section>
 
     </div>
   );
