@@ -1,0 +1,6 @@
+{
+  "name": "SEMCO Panamá",
+  "description": "Sitio web corporativo multipágina de SEMCO Panamá, empresa de ingeniería y mantenimiento electromecánico con 15 años de experiencia en Panamá, especializada en sistemas de bombeo, contra incendio y energía.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

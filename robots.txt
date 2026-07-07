@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://semco.com.pa/sitemap.xml

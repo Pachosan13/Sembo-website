@@ -1,0 +1,50 @@
+# SEMCO Panamá
+
+SEMCO Panamá is a premium electromechanical engineering and maintenance firm with over 15 years of active experience in the Republic of Panama. They specialize in critical building systems, offering unique digital maintenance tracking (*trazabilidad digital* with real-time photographic and checklist logs).
+
+## Core Identity
+- **Company Name:** SEMCO Panamá (Professional Service / Electromechanical Engineering)
+- **Founded Year:** 2011
+- **Service Area:** Entire Republic of Panama (Base in Panama City)
+- **Value Proposition:** "Ingeniería y mantenimiento electromecánico que no falla cuando más importa."
+- **Key Feature:** Digital-first preventative maintenance audits conforming strictly to NFPA, UL, FM, and Panama fire code regulations.
+
+## Contact Information (NAP)
+- **Address:** Rio Abajo, Villa Rica, Local D15, Ciudad de Panamá, Panamá
+- **Telephone:** +507 235-9876
+- **Email:** info@semco.com.pa
+- **Work Hours:** Monday to Friday, 8:00 AM - 5:00 PM
+- **WhatsApp Chat:** https://wa.me/5072359876
+
+## Core Services & Keywords
+1. **Sistemas Contra Incendios (Fire Protection)**
+   - NFPA 25 inspections, NFPA 20 fire pumps, NFPA 13 automatic sprinklers, NFPA 14 standpipes, certified fire alarms.
+   - URL: `/servicios/sistemas-contra-incendio-panama`
+2. **Sistemas de Bombeo de Agua (Water Pumping)**
+   - Potable water pumps, constant pressure with VFD controls, booster pumps, sump and drainage pump systems (achique pluvial, freático, sanitario).
+   - URL: `/servicios/sistemas-de-bombeo-panama`
+3. **Plantas Eléctricas de Emergencia (Emergency Power)**
+   - Backup diesel and gas generators, Automatic Transfer Switches (ATS), synchronism panels, routine load testing.
+   - URL: `/servicios/plantas-electricas-panama`
+4. **Centros de Control de Motores / MCC (Motor Control Centers)**
+   - Custom electrical control cabinets, soft starters (arrancadores suaves), variable frequency drives (VFD), NEC code compliance.
+   - URL: `/servicios/centros-de-control-de-motores-panama`
+5. **Energía Solar y Eficiencia (Solar Power & Energy Audits)**
+   - Commercial and industrial photovoltaic systems, solar net metering interconnections with Naturgy/ENSA, energy efficiency reviews. Notable project: Celsia Torre Argos (658 solar panels).
+   - URL: `/servicios/energia-solar-panama`
+6. **Gerencia de Proyectos y Consultoría (Project Management & Consulting)**
+   - Technical project audits, on-site personnel training, hazard/risk analyses, PMI methodologies.
+   - URL: `/servicios/gerencia-de-proyectos-panama`
+
+## Key URL Paths
+- Home (Inicio): `https://semco.com.pa/`
+- Projects Portfolio (Proyectos): `https://semco.com.pa/proyectos`
+- About Us (Nosotros): `https://semco.com.pa/nosotros`
+- Technical FAQ (Preguntas Frecuentes): `https://semco.com.pa/preguntas-frecuentes`
+- Contact & Map (Contacto): `https://semco.com.pa/contacto`
+
+## Standards and Memberships
+- NFPA (National Fire Protection Association) Member
+- Benemérito Cuerpo de Bomberos de Panamá Approved
+- JTIA (Junta Técnica de Ingeniería y Arquitectura) Certified Engineers
+- UL Listed & FM Approved Equipment Supplier
