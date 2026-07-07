@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { COMPANY_NAP } from "../data";
 import { Phone, Mail, MapPin, Clock, Send, MessageSquare, CheckCircle, FileText } from "lucide-react";
+import Logo from "./Logo";
 
 interface FormState {
   name: string;
@@ -291,7 +292,10 @@ export default function ContactView() {
             
             {/* NAP card */}
             <div className="bg-brand-navy-light/20 border border-brand-navy-light rounded-lg p-6 space-y-5">
-              <h3 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase border-b border-brand-navy-light pb-2">
+              <div className="pb-4 border-b border-brand-navy-light/60">
+                <Logo height={48} textColor="white" />
+              </div>
+              <h3 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase">
                 DATOS CORPORATIVOS (NAP)
               </h3>
               

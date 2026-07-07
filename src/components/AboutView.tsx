@@ -1,6 +1,7 @@
 import { COMPANY_NAP } from "../data";
 import { Shield, Target, Compass, Award, CheckCircle, ChevronRight, Eye } from "lucide-react";
 import { useRouter } from "./Router";
+import Logo from "./Logo";
 
 export default function AboutView() {
   const { navigate } = useRouter();
@@ -18,13 +19,16 @@ export default function AboutView() {
       
       {/* Header */}
       <section className="bg-navy-950 border-b border-brand-navy-light/40 py-16 blueprint-grid">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-1">
-            CONOCE NUESTRA TRAYECTORIA
-          </span>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-white tracking-tight">
-            Sobre SEMCO — 15 años de ingeniería electromecánica en Panamá
-          </h1>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-1">
+              CONOCE NUESTRA TRAYECTORIA
+            </span>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-white tracking-tight">
+              Sobre SEMCO — 15 años de ingeniería electromecánica en Panamá
+            </h1>
+          </div>
+          <Logo height={56} textColor="white" className="self-start md:self-center" />
         </div>
       </section>
 

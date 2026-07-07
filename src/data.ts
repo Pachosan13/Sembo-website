@@ -1,5 +1,11 @@
 import { ServiceItem, ProjectItem, FAQItem } from "./types";
 
+// Import custom generated engineering assets
+import solarRoofArgos from "./assets/images/solar_roof_argos_1783450627549.jpg";
+import firePumpNfpa from "./assets/images/fire_pump_nfpa_1783450516110.jpg";
+import waterBoosterSystem from "./assets/images/water_booster_system_1783450528989.jpg";
+import dieselGeneratorAts from "./assets/images/diesel_generator_ats_1783450602544.jpg";
+
 export const COMPANY_NAP = {
   name: "SEMCO Panamá",
   tagline: "Ingeniería y mantenimiento electromecánico que no falla cuando más importa",
@@ -199,7 +205,7 @@ export const PROJECTS: ProjectItem[] = [
     category: "Energía y Solar",
     location: "Ciudad de Panamá",
     description: "Instalación del sistema fotovoltaico con 658 paneles solares, estructura de soporte de aluminio, canalización eléctrica y conexiones interconectadas a la red.",
-    imageUrl: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=800&auto=format&fit=crop",
+    imageUrl: solarRoofArgos,
     client: "Celsia / Torre Argos",
     system: "Energía solar fotovoltaica"
   },
@@ -229,7 +235,7 @@ export const PROJECTS: ProjectItem[] = [
     category: "Residencial y PH",
     location: "San Francisco, Ciudad de Panamá",
     description: "Instalación y mantenimiento preventivo continuo de los sistemas de protección contra incendios y salas de bombas de agua potable para las Torres 100, 200, 300 y 400.",
-    imageUrl: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop",
+    imageUrl: firePumpNfpa,
     client: "Grupo Divisa / Administración PH",
     system: "Sistemas Contra Incendios NFPA 25 y Bombeo de Presión Constante"
   },
@@ -259,7 +265,7 @@ export const PROJECTS: ProjectItem[] = [
     category: "Residencial y PH",
     location: "Buenaventura, Coclé",
     description: "Diseño e instalación de sistemas de presión constante y automatización de redes de bombeo para un complejo residencial de lujo con 18 villas de alto estándar.",
-    imageUrl: "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=800&auto=format&fit=crop",
+    imageUrl: waterBoosterSystem,
     client: "Desarrollador Inmobiliario",
     system: "Bombeo de agua potable automatizado con control VFD"
   },
@@ -289,7 +295,7 @@ export const PROJECTS: ProjectItem[] = [
     category: "Comercial y Retail",
     location: "Arraiján, Panamá Oeste",
     description: "Planificación de rutinas NFPA 25, mantenimiento preventivo de plantas eléctricas de respaldo críticas, tableros de transferencia automática y red general contra incendios.",
-    imageUrl: "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?q=80&w=800&auto=format&fit=crop",
+    imageUrl: dieselGeneratorAts,
     client: "Administración Westland",
     system: "Plantas de Emergencia, Tableros ATS y Sistema Contra Incendio"
   },

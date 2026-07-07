@@ -4,6 +4,7 @@ import { SERVICES, COMPANY_NAP } from "../data";
 import { Menu, X, ChevronDown, Phone, FileText, Flame, Droplets, Zap, Cpu, Sun, Briefcase } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { RoutePath } from "../types";
+import Logo from "./Logo";
 
 export default function Header() {
   const { currentPath, navigate } = useRouter();
@@ -65,13 +66,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="bg-brand-cyan text-brand-navy font-display font-extrabold text-xl px-3 py-1.5 rounded tracking-wider flex items-center justify-center border-b-2 border-cyan-400">
-                SEMCO
-              </div>
-              <div className="flex flex-col">
-                <span className="font-display font-bold tracking-tight text-white leading-none text-lg">PANAMÁ</span>
-                <span className="text-[9px] text-brand-acero font-mono tracking-widest uppercase">ELECTROMECÁNICA</span>
-              </div>
+              <Logo height={46} textColor="white" />
             </Link>
           </div>
 

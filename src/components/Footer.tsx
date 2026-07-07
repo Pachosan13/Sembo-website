@@ -2,6 +2,7 @@ import { Link, useRouter } from "./Router";
 import { SERVICES, COMPANY_NAP } from "../data";
 import { Phone, Mail, MapPin, Clock, ArrowUpRight, ShieldCheck } from "lucide-react";
 import { RoutePath } from "../types";
+import Logo from "./Logo";
 
 export default function Footer() {
   const { navigate } = useRouter();
@@ -22,13 +23,7 @@ export default function Footer() {
           {/* Column 1: Brand & NAP */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="bg-brand-cyan text-brand-navy font-display font-extrabold text-lg px-2.5 py-1 rounded tracking-wider">
-                SEMCO
-              </div>
-              <div className="flex flex-col">
-                <span className="font-display font-bold tracking-tight text-white leading-none text-base">PANAMÁ</span>
-                <span className="text-[8px] text-brand-acero font-mono tracking-widest uppercase">INGENIERÍA</span>
-              </div>
+              <Logo height={44} textColor="white" />
             </Link>
             <p className="text-xs text-brand-acero leading-relaxed mt-2">
               Ingeniería electromecánica de alto rendimiento para infraestructuras residenciales, comerciales e industriales en Panamá. Especialistas en sistemas críticos desde 2011.

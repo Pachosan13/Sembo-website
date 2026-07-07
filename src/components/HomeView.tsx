@@ -1,8 +1,103 @@
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "./Router";
 import { SERVICES, PROJECTS, CLIENTS, SECTORS, COMPANY_NAP } from "../data";
-import { Flame, Droplets, Zap, Cpu, Sun, Briefcase, CheckCircle2, ChevronRight, Activity, Award, Check } from "lucide-react";
+import { Flame, Droplets, Zap, Cpu, Sun, Briefcase, CheckCircle2, ChevronRight, Activity, Award, Check, Quote } from "lucide-react";
 import { motion } from "motion/react";
 import { RoutePath } from "../types";
+
+// Import custom generated hero asset
+import heroBackground from "../assets/images/hero_background_1783450504616.jpg";
+import inspirationalEngineering from "../assets/images/inspirational_engineering_1783453963594.jpg";
+
+// Animated counter component for stats
+function AnimatedCounter({ value }: { value: string }) {
+  const [count, setCount] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const elementRef = useRef<HTMLSpanElement>(null);
+
+  // Extract prefix, suffix, and target number
+  // Match prefix (anything non-digit at start), digits, suffix (anything non-digit at end)
+  const match = value.match(/^([^\d]*?)(\d+)([^\d]*)$/);
+  
+  if (!match) {
+    return <span>{value}</span>;
+  }
+
+  const prefix = match[1] || "";
+  const target = parseInt(match[2], 10);
+  const suffix = match[3] || "";
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      setIsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.unobserve(element); // Only animate once when entering view
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(element);
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    let start = 0;
+    const end = target;
+    if (start === end) return;
+
+    const duration = 1800; // 1.8 seconds animation
+    const startTime = performance.now();
+
+    let animationFrameId: number;
+
+    const updateCount = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function - easeOutQuad
+      const easeProgress = progress * (2 - progress);
+      const current = Math.floor(easeProgress * (end - start) + start);
+
+      setCount(current);
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(updateCount);
+      } else {
+        setCount(end);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(updateCount);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [target, isInView]);
+
+  return (
+    <span ref={elementRef}>
+      {prefix}
+      {isInView ? count : "0"}
+      {suffix}
+    </span>
+  );
+}
 
 export default function HomeView() {
   const { navigate } = useRouter();
@@ -36,11 +131,27 @@ export default function HomeView() {
     <div className="w-full bg-brand-navy text-brand-text-light overflow-hidden" id="home-view">
       
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center bg-navy-950 blueprint-grid py-12 md:py-20 border-b border-brand-navy-light/60">
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/90 to-transparent z-10"></div>
-        
-        {/* Background visual detail */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-4/5 h-1/2 border border-brand-cyan/5 blueprint-grid-fine pointer-events-none -z-0"></div>
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative min-h-[90vh] flex items-center bg-navy-950 py-12 md:py-20 border-b border-brand-navy-light/60 overflow-hidden"
+      >
+        {/* Immersive high-end background photography with low opacity & gradient blending */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroBackground}
+            alt="SEMCO Mechanical Engineering"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover opacity-15 filter brightness-90 mix-blend-luminosity"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/90 to-navy-950/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy via-transparent to-brand-navy"></div>
+        </div>
+
+        {/* Blueprint grid patterns layered on top of image but under content */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none z-5 blueprint-grid"></div>
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-4/5 h-1/2 border border-brand-cyan/5 blueprint-grid-fine pointer-events-none z-5"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -101,51 +212,60 @@ export default function HomeView() {
               </div>
             </div>
 
-            {/* Hero Visual Blueprint Accent (desktop only) */}
-            <div className="hidden lg:block lg:col-span-4 relative">
-              <div className="border border-brand-cyan/20 rounded-lg p-6 bg-brand-navy-light/30 backdrop-blur-sm shadow-2xl relative overflow-hidden blueprint-grid">
-                <div className="absolute top-0 right-0 w-12 h-12 border-b border-l border-brand-cyan/40"></div>
-                <div className="absolute bottom-0 left-0 w-12 h-12 border-t border-r border-brand-cyan/40"></div>
-                
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-[10px] font-mono text-brand-cyan">SYS_STATUS_OK</span>
-                  <span className="text-[10px] font-mono text-brand-acero">SEMCO_OS_v15.0</span>
-                </div>
+            {/* Hero Visual Blueprint & Showcase Photo Card (Visible on mobile and desktop!) */}
+            <div className="lg:col-span-4 relative block mt-8 lg:mt-0">
+              <div className="relative group border border-brand-cyan/25 rounded-lg overflow-hidden shadow-2xl bg-brand-navy-light/30 p-2.5">
+                {/* Tech frame corners */}
+                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-brand-cyan z-20"></div>
+                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-brand-cyan z-20"></div>
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-brand-cyan z-20"></div>
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-brand-cyan z-20"></div>
 
-                <div className="space-y-4">
-                  <div className="p-3.5 bg-navy-950/80 rounded border border-brand-navy-light/80">
-                    <span className="block text-[11px] font-mono text-brand-cyan mb-1">✓ SALA DE BOMBAS CONTRA INCENDIOS</span>
-                    <span className="text-xs text-brand-acero">Inspección de alarmas trimestrales y arranque de motor diésel semanal.</span>
+                <div className="relative h-60 sm:h-72 lg:h-[360px] w-full bg-slate-900 rounded overflow-hidden">
+                  <img
+                    src={heroBackground}
+                    alt="Sistemas Electromecánicos SEMCO"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
+                    loading="eager"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent"></div>
+                  
+                  {/* Status Overlay */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-navy-950/90 border border-brand-cyan/25 rounded p-3.5 backdrop-blur-sm space-y-1.5 text-left">
+                    <div className="flex justify-between items-center text-[9px] font-mono">
+                      <span className="text-brand-cyan font-bold flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-brand-cyan rounded-full animate-ping"></span>
+                        SISTEMA ELECTROMECÁNICO ACTIVO
+                      </span>
+                      <span className="text-brand-acero">SEMCO v15.0</span>
+                    </div>
+                    <p className="text-[11px] text-slate-200 font-sans leading-relaxed">
+                      Sistemas electromecánicos de alta confiabilidad en todo Panamá. Inspecciones y tableros bajo cumplimiento NFPA.
+                    </p>
                   </div>
-                  <div className="p-3.5 bg-navy-950/80 rounded border border-brand-navy-light/80">
-                    <span className="block text-[11px] font-mono text-brand-cyan mb-1">✓ SISTEMA DE PRESIÓN CONSTANTE</span>
-                    <span className="text-xs text-brand-acero">Monitoreo de corriente de línea con arrancadores electrónicos programados.</span>
-                  </div>
-                  <div className="p-3.5 bg-navy-950/80 rounded border border-brand-navy-light/80">
-                    <span className="block text-[11px] font-mono text-brand-cyan mb-1">✓ GENERADOR ATS DE RESPALDO</span>
-                    <span className="text-xs text-brand-acero">Revisión de bujías de precalentamiento y baterías de arranque completadas.</span>
-                  </div>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-brand-navy-light/55 flex justify-between items-center text-[10px] font-mono text-brand-cyan">
-                  <span>AUDITORÍA ACTIVA</span>
-                  <Activity className="w-4 h-4 animate-pulse text-brand-cyan" />
                 </div>
               </div>
             </div>
 
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 2. STATS BAR */}
-      <section className="bg-brand-navy-light border-b border-brand-navy-light py-8">
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="bg-brand-navy-light border-b border-brand-navy-light py-8"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-y lg:divide-y-0 lg:divide-x divide-brand-navy/60">
             {stats.map((stat, idx) => (
               <div key={idx} className={`pt-4 lg:pt-0 ${idx === 0 || idx === 1 ? "pt-0" : ""}`}>
                 <div className="text-3xl sm:text-4xl font-display font-extrabold text-brand-cyan">
-                  {stat.value}
+                  <AnimatedCounter value={stat.value} />
                 </div>
                 <div className="text-xs sm:text-sm text-brand-acero font-mono mt-1 uppercase tracking-wide">
                   {stat.label}
@@ -154,10 +274,16 @@ export default function HomeView() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 3. SECCIÓN "QUÉ HACEMOS" (6 Tarjetas de Servicios) */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-brand-navy">
+      <motion.section
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6 }}
+        className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-brand-navy"
+      >
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-2">
             ESPECIALIDADES DE INGENIERÍA
@@ -198,10 +324,69 @@ export default function HomeView() {
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
+
+      {/* INSPIRATIONAL ENGINEERING FULL CARD */}
+      <motion.section
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7 }}
+        className="relative py-24 px-6 md:px-12 bg-navy-950 border-t border-b border-brand-cyan/15 overflow-hidden"
+      >
+        {/* Background image with parallax-like scaling & dark moody overlay */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={inspirationalEngineering}
+            alt="Ingeniería de Precisión SEMCO"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover opacity-35 scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-navy via-brand-navy/90 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-transparent to-brand-navy"></div>
+          {/* Subtle blueprint line detail */}
+          <div className="absolute left-10 right-10 top-1/2 -translate-y-1/2 h-[1px] bg-brand-cyan/5 border-dashed border-t border-brand-cyan/10 pointer-events-none"></div>
+        </div>
+
+        <div className="relative max-w-5xl mx-auto z-10 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          {/* Icon/Accent box */}
+          <div className="p-4 bg-navy-950/80 border border-brand-cyan/30 rounded-full shrink-0 shadow-2xl backdrop-blur-sm">
+            <Quote className="w-8 h-8 text-brand-cyan" />
+          </div>
+
+          <div className="space-y-4 text-center md:text-left">
+            <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block">
+              FILOSOFÍA DE TRABAJO · SEMCO
+            </span>
+            
+            <blockquote className="text-lg sm:text-xl md:text-2xl font-display font-medium text-white italic leading-relaxed">
+              "La ingeniería electromecánica de alto rendimiento no consiste solo en ensamblar sistemas hidráulicos y eléctricos; consiste en diseñar el latido invisible, seguro y continuo que sostiene las obras más emblemáticas de Panamá."
+            </blockquote>
+            
+            <div className="flex items-center justify-center md:justify-start gap-3 pt-2">
+              <div className="w-8 h-[1px] bg-brand-cyan"></div>
+              <span className="text-xs font-mono text-brand-acero uppercase tracking-wider">
+                Compromiso con la Precisión, Seguridad y Normas NFPA
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Technical frame border details to match blueprint grid feel */}
+        <div className="absolute top-4 left-4 w-8 h-8 border-t border-l border-brand-cyan/20"></div>
+        <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-brand-cyan/20"></div>
+        <div className="absolute bottom-4 left-4 w-8 h-8 border-b border-l border-brand-cyan/20"></div>
+        <div className="absolute bottom-4 right-4 w-8 h-8 border-b border-r border-brand-cyan/20"></div>
+      </motion.section>
 
       {/* 4. SECCIÓN DIFERENCIADOR — Mantenimiento con trazabilidad digital */}
-      <section className="bg-brand-navy-light py-20 border-t border-b border-brand-navy-light">
+      <motion.section
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6 }}
+        className="bg-brand-navy-light py-20 border-t border-b border-brand-navy-light"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -308,10 +493,16 @@ export default function HomeView() {
 
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 5. SECCIÓN CLIENTES / OBRAS (Fila de Nombres Marquee) */}
-      <section className="py-12 bg-navy-950 border-b border-brand-navy-light/40 overflow-hidden relative">
+      <motion.section
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="py-12 bg-navy-950 border-b border-brand-navy-light/40 overflow-hidden relative"
+      >
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-navy-950 to-transparent z-10"></div>
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-navy-950 to-transparent z-10"></div>
         
@@ -332,10 +523,16 @@ export default function HomeView() {
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 6. SECCIÓN SECTORES QUE ATENDEMOS (Chips) */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <motion.section
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6 }}
+        className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
         <div className="text-center max-w-2xl mx-auto mb-10">
           <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-1">
             CAMPO DE ACCIÓN
@@ -356,10 +553,16 @@ export default function HomeView() {
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* 7. SECCIÓN PROYECTOS DESTACADOS (3 Tarjetas) */}
-      <section className="py-20 bg-brand-navy-light border-t border-b border-brand-navy-light">
+      <motion.section
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6 }}
+        className="py-20 bg-brand-navy-light border-t border-b border-brand-navy-light"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
@@ -424,10 +627,16 @@ export default function HomeView() {
           </div>
 
         </div>
-      </section>
+      </motion.section>
 
       {/* 8. FAQ RESUMEN (con link a la página de preguntas frecuentes) */}
-      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6 }}
+        className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
         <div className="text-center mb-12">
           <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-1">
             RESOLVIENDO DUDAS
@@ -469,10 +678,16 @@ export default function HomeView() {
             Ver todas las preguntas y respuestas
           </button>
         </div>
-      </section>
+      </motion.section>
 
       {/* 9. CTA FINAL */}
-      <section className="relative bg-navy-950 border-t border-brand-navy-light/60 py-16 px-4 blueprint-grid">
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+        className="relative bg-navy-950 border-t border-brand-navy-light/60 py-16 px-4 blueprint-grid"
+      >
         <div className="absolute inset-0 bg-brand-navy/90 z-0"></div>
         <div className="relative max-w-5xl mx-auto text-center space-y-6 z-10">
           <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white leading-tight">
@@ -499,7 +714,7 @@ export default function HomeView() {
             </a>
           </div>
         </div>
-      </section>
+      </motion.section>
 
     </div>
   );

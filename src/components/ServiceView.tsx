@@ -3,6 +3,13 @@ import { SERVICES, COMPANY_NAP } from "../data";
 import { Flame, Droplets, Zap, Cpu, Sun, Briefcase, CheckCircle, Shield, Layers, HelpCircle, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
+// Import custom engineering assets for service views
+import solarRoofArgos from "../assets/images/solar_roof_argos_1783450627549.jpg";
+import firePumpNfpa from "../assets/images/fire_pump_nfpa_1783450516110.jpg";
+import waterBoosterSystem from "../assets/images/water_booster_system_1783450528989.jpg";
+import dieselGeneratorAts from "../assets/images/diesel_generator_ats_1783450602544.jpg";
+import heroBackground from "../assets/images/hero_background_1783450504616.jpg";
+
 export default function ServiceView() {
   const { currentPath, navigate } = useRouter();
 
@@ -24,7 +31,6 @@ export default function ServiceView() {
       </div>
     );
   }
-
   // Get service icons dynamically
   const getServiceIcon = (iconName: string) => {
     switch (iconName) {
@@ -38,36 +44,84 @@ export default function ServiceView() {
     }
   };
 
+  const getServiceImage = (serviceSlug: string) => {
+    switch (serviceSlug) {
+      case "sistemas-contra-incendio-panama":
+        return firePumpNfpa;
+      case "sistemas-de-bombeo-panama":
+        return waterBoosterSystem;
+      case "plantas-electricas-panama":
+        return dieselGeneratorAts;
+      case "energia-solar-panama":
+        return solarRoofArgos;
+      case "centros-de-control-de-motores-panama":
+        return heroBackground;
+      default:
+        return heroBackground;
+    }
+  };
+
   return (
     <div className="w-full bg-brand-navy text-brand-text-light pb-20" id={`service-view-${slug}`}>
       
       {/* Dynamic Header / Hero */}
-      <section className="bg-navy-950 border-b border-brand-navy-light/40 py-16 blueprint-grid">
+      <section className="bg-navy-950 border-b border-brand-navy-light/40 py-12 md:py-16 blueprint-grid overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
-            <div className="p-4 bg-brand-navy rounded-lg border border-brand-navy-light shadow-md">
-              {getServiceIcon(service.iconName)}
-            </div>
-            <div>
-              <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-1">
-                Servicios de Ingeniería Electromecánica en Panamá
-              </span>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-white tracking-tight">
-                {service.title}
-              </h1>
-            </div>
-          </div>
-
-          {/* Answer-First Section (SEO/AEO critical optimization) */}
-          <div className="bg-brand-navy border-l-4 border-brand-cyan rounded-r-lg p-6 md:p-8 shadow-xl max-w-4xl relative overflow-hidden">
-            <div className="absolute right-0 top-0 translate-x-[40%] translate-y-[-40%] w-32 h-32 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            <h2 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase mb-3">
-              Respuesta Rápida y Resumen Técnico
-            </h2>
-            <p className="text-sm sm:text-base text-slate-100 leading-relaxed font-sans">
-              {service.answerFirst}
-            </p>
+            {/* Left/Text Content */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-brand-navy rounded-lg border border-brand-navy-light shadow-md shrink-0">
+                  {getServiceIcon(service.iconName)}
+                </div>
+                <div>
+                  <span className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase block mb-0.5">
+                    Servicio Especializado · SEMCO
+                  </span>
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-white tracking-tight">
+                    {service.title}
+                  </h1>
+                </div>
+              </div>
+
+              {/* Answer-First Section (SEO/AEO critical optimization) */}
+              <div className="bg-brand-navy border-l-4 border-brand-cyan rounded-r-lg p-6 shadow-xl relative overflow-hidden">
+                <div className="absolute right-0 top-0 translate-x-[40%] translate-y-[40%] w-32 h-32 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none"></div>
+                <h2 className="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase mb-2">
+                  Resumen Técnico y Cumplimiento
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-100 leading-relaxed font-sans">
+                  {service.answerFirst}
+                </p>
+              </div>
+            </div>
+
+            {/* Right/Visual Image Content */}
+            <div className="lg:col-span-5">
+              <div className="relative group border border-brand-cyan/20 rounded-lg overflow-hidden shadow-2xl bg-brand-navy-light/20 p-2.5">
+                {/* Tech frame corners */}
+                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-brand-cyan"></div>
+                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-brand-cyan"></div>
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-brand-cyan"></div>
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-brand-cyan"></div>
+
+                <div className="relative h-64 w-full bg-slate-900 rounded overflow-hidden">
+                  <img
+                    src={getServiceImage(service.slug)}
+                    alt={service.title}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 to-transparent"></div>
+                  <div className="absolute top-3 right-3 px-2 py-0.5 bg-brand-navy/80 border border-brand-cyan/30 rounded text-[9px] font-mono text-brand-cyan font-bold uppercase tracking-widest">
+                    SISTEMA REAL
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

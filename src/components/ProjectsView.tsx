@@ -1,13 +1,26 @@
 import { useState } from "react";
 import { PROJECTS, COMPANY_NAP } from "../data";
-import { ArrowRight, Filter, MapPin, Layers, User } from "lucide-react";
+import { ArrowRight, Filter, MapPin, Layers, User, X, Maximize2 } from "lucide-react";
 import { useRouter } from "./Router";
+import { motion, AnimatePresence } from "motion/react";
 
 type CategoryFilter = "Todos" | "Comercial y Retail" | "Residencial y PH" | "Institucional y Salud" | "Industrial" | "Energía y Solar";
+
+interface ProjectItem {
+  id: string;
+  name: string;
+  category: string;
+  location: string;
+  description: string;
+  imageUrl: string;
+  client: string;
+  system: string;
+}
 
 export default function ProjectsView() {
   const { navigate } = useRouter();
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("Todos");
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
 
   const categories: CategoryFilter[] = [
     "Todos",
@@ -83,7 +96,10 @@ export default function ProjectsView() {
               id={`project-card-${p.id}`}
             >
               {/* Image box with high-end contrast overlay */}
-              <div className="relative h-48 w-full bg-slate-900 overflow-hidden">
+              <div 
+                className="relative h-52 w-full bg-slate-900 overflow-hidden cursor-pointer"
+                onClick={() => setSelectedProject(p)}
+              >
                 <img
                   src={p.imageUrl}
                   alt={`${p.name} - ${p.system}`}
@@ -91,7 +107,16 @@ export default function ProjectsView() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-75"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy to-transparent opacity-80"></div>
+                
+                {/* Visual hover overlay */}
+                <div className="absolute inset-0 bg-brand-navy/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="px-4 py-2 bg-brand-cyan text-brand-navy font-display font-bold text-xs tracking-wider uppercase rounded-full shadow-lg flex items-center gap-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    <Maximize2 className="w-3.5 h-3.5" />
+                    <span>Ver Proyecto Ampliado</span>
+                  </div>
+                </div>
+
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy to-transparent opacity-80 pointer-events-none"></div>
                 <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-brand-cyan/25 border border-brand-cyan/30 backdrop-blur-sm rounded text-[9px] font-mono text-brand-cyan font-bold uppercase tracking-wider">
                   {p.category}
                 </span>
@@ -100,7 +125,10 @@ export default function ProjectsView() {
               {/* Body */}
               <div className="p-5 flex-grow flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
-                  <h3 className="text-base font-display font-bold text-white group-hover:text-brand-cyan transition-colors">
+                  <h3 
+                    className="text-base font-display font-bold text-white hover:text-brand-cyan transition-colors cursor-pointer"
+                    onClick={() => setSelectedProject(p)}
+                  >
                     {p.name}
                   </h3>
                   
@@ -152,6 +180,121 @@ export default function ProjectsView() {
           </div>
         </div>
       </section>
+
+      {/* Modern High-End Project Modal (Lightbox) */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
+            {/* Backdrop Blur */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
+              className="absolute inset-0 bg-navy-950/90 backdrop-blur-md"
+            />
+
+            {/* Modal Body */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ type: "spring", damping: 25, stiffness: 350 }}
+              className="relative w-full max-w-5xl bg-brand-navy border border-brand-cyan/25 rounded-xl shadow-2xl overflow-hidden z-10 max-h-[90vh] flex flex-col md:flex-row"
+            >
+              {/* Corner cyan details */}
+              <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-brand-cyan z-25 pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-brand-cyan z-25 pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-brand-cyan z-25 pointer-events-none"></div>
+              <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-brand-cyan z-25 pointer-events-none"></div>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 p-2 bg-navy-950/80 border border-brand-cyan/20 hover:border-brand-cyan/60 rounded-full text-slate-300 hover:text-white transition-all z-30"
+                aria-label="Cerrar modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Left Side: High-res Photo */}
+              <div className="w-full md:w-1/2 h-64 md:h-auto min-h-[280px] bg-black relative shrink-0">
+                <img
+                  src={selectedProject.imageUrl}
+                  alt={selectedProject.name}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-transparent to-brand-navy/95 pointer-events-none"></div>
+                
+                <span className="absolute bottom-4 left-4 px-3 py-1 bg-brand-cyan text-brand-navy font-mono text-[10px] font-bold uppercase tracking-wider rounded shadow">
+                  {selectedProject.category}
+                </span>
+              </div>
+
+              {/* Right Side: Detailed engineering specs */}
+              <div className="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto max-h-[60vh] md:max-h-full">
+                <div className="space-y-5">
+                  <div>
+                    <div className="flex items-center gap-1.5 text-xs font-mono text-brand-cyan uppercase mb-1">
+                      <MapPin className="w-4 h-4" />
+                      <span>{selectedProject.location}</span>
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-display font-extrabold text-white leading-snug">
+                      {selectedProject.name}
+                    </h2>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h3 className="text-[11px] font-mono text-brand-acero uppercase tracking-wider border-b border-brand-navy-light pb-1">
+                      DESCRIPCIÓN DEL PROYECTO
+                    </h3>
+                    <p className="text-sm text-slate-200 leading-relaxed font-sans">
+                      {selectedProject.description}
+                    </p>
+                  </div>
+
+                  {/* Tech Specs list */}
+                  <div className="space-y-2.5 pt-2">
+                    <div className="flex items-start gap-3 bg-navy-950/50 p-3 rounded border border-brand-navy-light/40">
+                      <User className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
+                      <div className="text-xs">
+                        <span className="block font-mono text-brand-acero uppercase text-[9px] tracking-wider">CLIENTE / CONTRATISTA</span>
+                        <span className="text-slate-100 font-medium">{selectedProject.client}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3 bg-navy-950/50 p-3 rounded border border-brand-navy-light/40">
+                      <Layers className="w-5 h-5 text-brand-cyan shrink-0 mt-0.5" />
+                      <div className="text-xs">
+                        <span className="block font-mono text-brand-acero uppercase text-[9px] tracking-wider">SISTEMA ELECTROMECÁNICO</span>
+                        <span className="text-brand-cyan font-bold">{selectedProject.system}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-4 border-t border-brand-navy-light/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <span className="text-[10px] font-mono text-brand-acero uppercase">
+                    ESTÁNDAR DE INGENIERÍA COMPLETO
+                  </span>
+                  <button
+                    onClick={() => {
+                      setSelectedProject(null);
+                      navigate("/contacto");
+                    }}
+                    className="w-full sm:w-auto px-4 py-2 bg-brand-cyan/20 border border-brand-cyan/40 hover:bg-brand-cyan hover:text-brand-navy text-brand-cyan text-xs font-bold uppercase tracking-wider rounded transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <span>Cotizar Proyecto Similar</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
